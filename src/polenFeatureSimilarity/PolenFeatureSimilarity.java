@@ -174,7 +174,7 @@ public class PolenFeatureSimilarity {
 			if (minimum > cal)
 				minimum = cal;
 		}
-		return Math.sqrt(minimum);
+		return minimum;
 	}
 
 	public double getAvgSimilarity(double[] theFeat, ArrayList<SurfFeature> known) {
