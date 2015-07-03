@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
+import configuration.Configuration;
 import surfExtractor.image_set.Image;
 import surfExtractor.image_set.ImageClass;
 import surfExtractor.image_set.ImageSet;
@@ -23,38 +24,39 @@ import boofcv.factory.feature.detdesc.FactoryDetectDescribe;
 import boofcv.io.image.UtilImageIO;
 import boofcv.struct.feature.SurfFeature;
 import boofcv.struct.image.ImageFloat32;
-import configuration.Configuration;
 
 public class PolenFeatureSimilarity {
 
 	public static void main(String[] args) {
-		Configuration.addNewValidParameter("image.to.analyse");
-		Configuration.addNewValidParameter("imageset.location");
+		Configuration config = new Configuration();
+		
+		config.addNewValidParameter("image.to.analyse");
+		config.addNewValidParameter("imageset.location");
 
-		Configuration.readFromRunArgs(args);
+		config.readFromRunArgs(args);
 
-		Configuration.debugParameters();
+		config.debugParameters();
 
 		try {
-			Configuration.verifyArgs();
+			config.verifyArgs();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		new PolenFeatureSimilarity();
+		new PolenFeatureSimilarity(config);
 	}
 
-	public PolenFeatureSimilarity() {
-		ImageFloat32 imageToAnalyse = UtilImageIO.loadImage(Configuration.getConfiguration("image.to.analyse"), ImageFloat32.class);
+	public PolenFeatureSimilarity(Configuration config) {
+		ImageFloat32 imageToAnalyse = UtilImageIO.loadImage(config.getConfiguration("image.to.analyse"), ImageFloat32.class);
 		BufferedImage imageBuf = null;
 		if(imageToAnalyse == null) {
-			imageBuf = IJ.openImage(Configuration.getConfiguration("image.to.analyse")).getBufferedImage();
+			imageBuf = IJ.openImage(config.getConfiguration("image.to.analyse")).getBufferedImage();
 
 			imageToAnalyse = ConvertBufferedImage.convertFrom(imageBuf, imageToAnalyse);
 		}
 		ImageSet imageSet = null;
 		try {
-			imageSet = new ImageSet(Configuration.getConfiguration("imageset.location"));
+			imageSet = new ImageSet(config.getConfiguration("imageset.location"));
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
