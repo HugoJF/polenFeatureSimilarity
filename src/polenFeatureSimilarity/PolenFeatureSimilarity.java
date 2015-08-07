@@ -46,16 +46,16 @@ public class PolenFeatureSimilarity {
 	}
 
 	public PolenFeatureSimilarity(Configuration config) {
-		ImageFloat32 imageToAnalyse = UtilImageIO.loadImage(config.getConfiguration("image.to.analyse"), ImageFloat32.class);
+		ImageFloat32 imageToAnalyse = UtilImageIO.loadImage(config.getConfig("image.to.analyse"), ImageFloat32.class);
 		BufferedImage imageBuf = null;
 		if(imageToAnalyse == null) {
-			imageBuf = IJ.openImage(config.getConfiguration("image.to.analyse")).getBufferedImage();
+			imageBuf = IJ.openImage(config.getConfig("image.to.analyse")).getBufferedImage();
 
 			imageToAnalyse = ConvertBufferedImage.convertFrom(imageBuf, imageToAnalyse);
 		}
 		ImageSet imageSet = null;
 		try {
-			imageSet = new ImageSet(config.getConfiguration("imageset.location"));
+			imageSet = new ImageSet(config.getConfig("imageset.location"));
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
